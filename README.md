@@ -16,6 +16,7 @@ npm version 7.10.0
 `npm run start`
 
 ### Usage
+```typescript
 GET /person/{id}
 200
 {
@@ -83,6 +84,7 @@ POST /person/list?firstName={first}&lastName={last}
 {
   message: "Missing File: Cannot read persons from file."
 }
+```
 
 ### Test
 `npm run test`
