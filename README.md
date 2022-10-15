@@ -15,5 +15,74 @@ npm version 7.10.0
 ### Start
 `npm run start`
 
+### Usage
+GET /person/{id}
+200
+{
+  data: {
+    id: number,
+    firstName: string,
+    lastName: string
+  }
+}
+
+400
+{
+  message: "Not a valid Id."
+}
+
+404
+{
+  message: "Person not found."
+}
+
+500
+{
+  message: "Missing File: Cannot read persons from file."
+}
+
+POST /person
+body {
+  firstName: string,
+  lastName: string
+}
+
+200
+{
+  data: {
+    id: number,
+    firstName: string,
+    lastName: string
+  }
+}
+
+400
+{
+  message: "Must provde firstName and lastName body parameters."
+}
+
+500
+{
+  message: "Missing File: Cannot read persons from file."
+}
+
+POST /person/list?firstName={first}&lastName={last}
+200
+{
+  data: [
+    {
+      id: number,
+      firstName: string,
+      lastName: string
+    },
+    ...
+  ]
+}
+
+500
+{
+  message: "Missing File: Cannot read persons from file."
+}
+
 ### Test
 `npm run test`
