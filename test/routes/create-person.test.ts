@@ -5,6 +5,7 @@ import { personsFixture } from '../fixtures/persons.fixture';
 
 describe('Test Create Person Endpoint', () => {
   let res;
+  let readPersonSpy;
 
   beforeEach(() => {
     res = {
@@ -15,7 +16,7 @@ describe('Test Create Person Endpoint', () => {
       send: function(input: any) { this.result = input}
     };
     
-    jest.spyOn(FileUtil.prototype, 'readPersons').mockReturnValue(personsFixture);
+    readPersonSpy = jest.spyOn(FileUtil.prototype, 'readPersons').mockReturnValue(personsFixture);
   })
 
   test('should return 404 parameter is missing', () => {
@@ -29,6 +30,7 @@ describe('Test Create Person Endpoint', () => {
 
     createPerson(req, res);
 
+    expect(readPersonSpy).not.toBeCalled();
     expect(res.result.message).toEqual(expectedResult);
   });
 
@@ -39,7 +41,7 @@ describe('Test Create Person Endpoint', () => {
       lastName: 'last'
     };
 
-    jest.spyOn(FileUtil.prototype, 'writePersons').mockImplementation(() => {});
+    const writePersonSpy = jest.spyOn(FileUtil.prototype, 'writePersons').mockImplementation(() => {});
 
     const req = {
       body: {
@@ -50,6 +52,8 @@ describe('Test Create Person Endpoint', () => {
 
     createPerson(req, res);
 
+    expect(readPersonSpy).toBeCalled();
+    expect(writePersonSpy).toBeCalled();
     expect(res.result.data).toEqual(expectedResult);
   });
 });

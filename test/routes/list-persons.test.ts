@@ -5,6 +5,7 @@ import { personsFixture } from '../fixtures/persons.fixture';
 
 describe('Test List Person Endpoint', () => {
   let res: any;
+  let readPersonSpy;
 
   beforeEach(() => {
     res = {
@@ -14,7 +15,7 @@ describe('Test List Person Endpoint', () => {
       send: function(input: any) { this.result = input}
     };
 
-    jest.spyOn(FileUtil.prototype, 'readPersons').mockReturnValue(personsFixture);
+    readPersonSpy = jest.spyOn(FileUtil.prototype, 'readPersons').mockReturnValue(personsFixture);
   })
   test('should return 200 with no filters', () => {
     const expectedResult = personsFixture; 
@@ -25,6 +26,7 @@ describe('Test List Person Endpoint', () => {
 
     listPersons(req, res);
 
+    expect(readPersonSpy).toBeCalled();
     expect(res.result.data).toEqual(expectedResult);
   });
 
@@ -41,6 +43,7 @@ describe('Test List Person Endpoint', () => {
 
     listPersons(req, res);
 
+    expect(readPersonSpy).toBeCalled();
     expect(res.result.data).toEqual(expectedResult);
   });
   
@@ -58,6 +61,7 @@ describe('Test List Person Endpoint', () => {
 
     listPersons(req, res);
 
+    expect(readPersonSpy).toBeCalled();
     expect(res.result.data).toEqual(expectedResult);
   });
 });

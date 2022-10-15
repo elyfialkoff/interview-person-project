@@ -5,6 +5,7 @@ import { personsFixture } from '../fixtures/persons.fixture';
 
 describe('Test Get Person Endpoint', () => {
   let res;
+  let readPersonSpy;
 
   beforeEach(() => {
     res = {
@@ -15,7 +16,7 @@ describe('Test Get Person Endpoint', () => {
       send: function(input: any) { this.result = input}
     };
     
-    jest.spyOn(FileUtil.prototype, 'readPersons').mockReturnValue(personsFixture);
+    readPersonSpy = jest.spyOn(FileUtil.prototype, 'readPersons').mockReturnValue(personsFixture);
   })
   
   test('should return 400 when invalid id is supplied', () => {
@@ -29,6 +30,7 @@ describe('Test Get Person Endpoint', () => {
 
     getPerson(req, res);
 
+    expect(readPersonSpy).not.toBeCalled();
     expect(res.result.message).toEqual(expectedResult);
   });
 
@@ -39,10 +41,11 @@ describe('Test Get Person Endpoint', () => {
       params: {
         id: 11
       }
-    }
+    };
 
     getPerson(req, res);
 
+    expect(readPersonSpy).toBeCalled();
     expect(res.result.message).toEqual(expectedResult);
   });
 
@@ -57,10 +60,11 @@ describe('Test Get Person Endpoint', () => {
       params: {
         id: 1
       }
-    }
+    };
 
     getPerson(req, res);
 
+    expect(readPersonSpy).toBeCalled();
     expect(res.result.data).toEqual(expectedResult);
   });
 });
