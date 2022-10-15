@@ -1,3 +1,7 @@
+# Ignore Excel and Word Documents
+*.xlsx
+*.docx
+
 # Logs
 logs
 *.log
