@@ -35,7 +35,7 @@ describe('Test Get Person Endpoint', () => {
   });
 
   test('should return 404 when Person is not found', () => {
-    const expectedResult = 'Person not found';
+    const expectedResult = 'Person not found.';
 
     const req = {
       params: {
