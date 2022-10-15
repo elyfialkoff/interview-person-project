@@ -4,8 +4,12 @@ import { Person } from 'person.interface';
 
 export class FileUtil {
   public readPersons(filename: string): Person[] {
-    const data = readFileSync(join(__dirname, filename), 'utf-8');
-    return JSON.parse(data);
+    try {
+      const data = readFileSync(join(__dirname, filename), 'utf-8');
+      return JSON.parse(data);
+    } catch (error) {
+      throw new Error(`Missing File: Cannot read persons from file.`)
+    }
   }
 
   public writePersons(filename: string, persons: Person[]): void {

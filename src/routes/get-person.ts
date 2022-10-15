@@ -10,11 +10,25 @@ export const getPerson = (req: any, res: any) => {
     res.send({message: "Not a valid Id."});
     return;
   }
-  const person: Person | undefined = new FileUtil().readPersons(filename).find((person: Person) => { return person.id == id });
+  
+  let persons: Person[];
+  try {
+    persons = new FileUtil()
+      .readPersons(filename)
+  } catch (error) {
+    res.statusCode = 500;
+    res.send({message: error.message});
+    return;
+  }
+
+  const person: Person | undefined = persons.find((person: Person) => {
+    return person.id == id 
+  });
+  
 
   if (!person) {
     res.statusCode = 404; 
-    res.send({message: "Person not found"});
+    res.send({message: "Person not found."});
     return;
   }
 

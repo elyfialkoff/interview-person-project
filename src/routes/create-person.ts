@@ -12,7 +12,15 @@ export const createPerson = (req: any, res: any) => {
     return;
   }
 
-  const persons: Person[] = new FileUtil().readPersons(filename);
+  let persons: Person[] | undefined;
+  try {
+    persons = new FileUtil()
+      .readPersons(filename)
+  } catch (error) {
+    res.statusCode = 500;
+    res.send({message: error.message});
+    return;
+  }
   
   const id = Math.max(...persons.map((person: Person) => {
     return person.id
